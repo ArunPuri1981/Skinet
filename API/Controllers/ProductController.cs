@@ -1,34 +1,43 @@
-using Infrastructure.Data;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
-using System.Collections;
+using API.DTO;
+using AutoMapper;
+using API.Error;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductRepository _productRepository; 
+        private readonly IMapper _mapper;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, IMapper mapper)
         {
+            _mapper = mapper;                        
             _productRepository = productRepository;
         }
 
-
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProduct()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetProduct()
         {
             var products=await _productRepository.GetProductsAsync();
-            return Ok(products);
+            return Ok(_mapper.Map<IReadOnlyList<Product>,IReadOnlyList<ProductToReturnDTO>>(products));
         }
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProductById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]//Swagger
+        [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status404NotFound)]//Swagger
+        public async Task<ActionResult<ProductToReturnDTO>> GetProductById(int id)
         {
-            return await _productRepository.GetProductByIdAsync(id);
+            var product= await _productRepository.GetProductByIdAsync(id);
+
+            if(product==null)
+            {
+                return NotFound(new ApiResponse(400));
+            }    
+
+            return Ok(_mapper.Map<Product,ProductToReturnDTO>(product));
         }
 
         [HttpGet("types")]
