@@ -22,8 +22,8 @@ export class BusyService {
     this.busyRequestCount--;
     if (this.busyRequestCount <= 0) {
       this.busyRequestCount = 0;
-      this.spinnerService.hide();
     }
+    this.spinnerService.hide();    
   }
 
 }
