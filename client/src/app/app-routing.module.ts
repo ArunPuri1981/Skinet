@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent,data:{breadcrumb:'Home'} },
   { path: 'test-error', component: TestErrorComponent },
   { path: 'not-found', component:NotFoundComponent},
-  {path: 'server-error', component:ServerErrorComponent},
+  {path:  'server-error', component:ServerErrorComponent},
   { path: 'shop',loadChildren:()=>import('./shop/shop.module').then(m=>m.ShopModule)},//lazy loading 
   { path: 'basket',loadChildren:()=>import('./basket/basket.module').then(m=>m.BasketModule)},//lazy loading   
   { path: 'checkout',loadChildren:()=>import('./checkout/checkout.module').then(m=>m.CheckoutModule)},//lazy loading   

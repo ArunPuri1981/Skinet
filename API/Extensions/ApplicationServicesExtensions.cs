@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using API.Error;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+
 
 namespace API.Extensions
 {
@@ -24,12 +26,15 @@ namespace API.Extensions
                  opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
              });
 
-            services.AddSingleton<IConnectionMultiplexer>(c => {
-                var options=ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"));
+
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                var options = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"));
                 return ConnectionMultiplexer.Connect(options);
             });
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<ITokenService, TokenService>();
             //builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<ApiBehaviorOptions>(options =>
@@ -57,7 +62,7 @@ namespace API.Extensions
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
-            
+
             return services;
         }
     }
