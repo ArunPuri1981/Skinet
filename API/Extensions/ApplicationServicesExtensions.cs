@@ -19,8 +19,7 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services,
         IConfiguration configuration)
         {
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            
             services.AddDbContext<StoreContext>(opt =>
              {
                  opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
