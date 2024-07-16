@@ -9,6 +9,7 @@ import { Toast, ToastrModule } from 'ngx-toastr';
 import { SectionHeaderComponent } from './section-header/section-header.component';
 import { BreadcrumbComponent, BreadcrumbModule } from 'xng-breadcrumb';
 import { NgxSpinner, NgxSpinnerComponent, NgxSpinnerModule } from 'ngx-spinner';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -28,7 +29,8 @@ import { NgxSpinner, NgxSpinnerComponent, NgxSpinnerModule } from 'ngx-spinner';
       preventDuplicates: true
     }),
     BreadcrumbModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    SharedModule
   ],
   exports:[
     NavBarComponent,
