@@ -77,6 +77,7 @@ namespace Infrastructure.Services
         {
              return await _storeContext.Orders
              .Include(o => o.OrderItems)
+             .Include(o=>o.DeliveryMethod)
              .Where(o=>o.Id==id && o.BuyerEmail==buyerEmail)
              .FirstOrDefaultAsync();
                 
