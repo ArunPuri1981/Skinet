@@ -30,10 +30,39 @@ namespace API.Controllers
         {
             var email = HttpContext.User.RetrievedEmailFromPrincipal();
             var address = _mapper.Map<AddressDTO, Address>(orderDto.ShipToAddress);
-            var order = await _orderService.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address);
-            if (order == null) return BadRequest(new ApiResponse(400, "problem Creating Order"));
+            var order = await _orderService.CreateOrderAsync(email, orderDto.DeliveryMethodId,
+            orderDto.BasketId, address);
+
+            if (order == null) return BadRequest(new ApiResponse(400, "problem Creating order"));
 
             return Ok(order);
+
+        }
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrderForUser()
+        {
+            var email = HttpContext.User.RetrievedEmailFromPrincipal();
+
+            var orders = await _orderService.GetOrdersForUserAsync(email);
+
+            return Ok(orders);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Order>> GetOrderByIdForUser(int id)
+        {
+            var email = HttpContext.User.RetrievedEmailFromPrincipal();
+
+            var order = await _orderService.GetOrderByIdAsync(id, email);
+            if (order == null) return NotFound(new ApiResponse(404));
+
+            return Ok(order);
+        }
+
+        [HttpGet("DeliveryMethods")]
+        public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
+        {
+            return Ok(await _orderService.GetDeliveryMethodsAsync());
         }
     }
 }

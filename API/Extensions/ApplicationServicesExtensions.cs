@@ -36,7 +36,10 @@ namespace API.Extensions
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<ITokenService, TokenService>();
-            
+            services.AddScoped<IDeliveryMethodRepository, DeliveryMethodRepository>();
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
+
+
             //builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<ApiBehaviorOptions>(options =>

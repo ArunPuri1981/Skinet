@@ -20,6 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
+//builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 

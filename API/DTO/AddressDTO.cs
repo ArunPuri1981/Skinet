@@ -23,7 +23,7 @@ namespace API.DTO
         [Required]
         public string State { get; set; }
 
-        [Range(minimum: 6, maximum: 6, ErrorMessage = "Please enter the valid Zipcode")]
+        [Range(minimum: 100000, maximum: 999999, ErrorMessage = "Please enter the valid Zipcode")]
         public int ZipCode { get; set; }
     }
 }
